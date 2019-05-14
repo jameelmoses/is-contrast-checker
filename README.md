@@ -19,12 +19,12 @@ Pass an array of color strings or an object with color strings as values.
 import isContrastChecker from 'is-contrast-checker';
 
 const colors = {
-  red: '#FF0000',
+  red: '#f00',
   green: '#008000',
-  white: '#FFFFFF'
+  white: '#fff'
 }
 
-const result = isContrastChecker(colors, { compact: true, threshold: 0 })
+const result = isContrastChecker(colors)
 ```
 
 Returns an array of colors with combinations for all other colors and their
@@ -55,30 +55,6 @@ values.
   ...
 ]
 ```
-
----
-
-## Options
-
-### `compact`
-
-_Type: Boolean (default: `false`)_
-
-If set to `true`, the result will be a smaller object that only includes hex value color strings, a name for each color (if an object is passed to the function), contrast, and accessibility values.
-When set to `false`, the result also includes the entire [harthur/color](https://www.npmjs.com/package/color) object for each color, which includes other properties and methods for color manipulation.
-
-### `threshold`
-
-_Type: Number (default: `0`)_
-
-When set, the colorable function only returns combinations that have a contrast above this value. This is useful for only seeing combinations that pass a minimum contrast level.
-
-### `uniq`
-
-_Type: Boolean (default: true)_
-
-When set to `true`, the array of colors is passed through lodash.uniq to remove duplicates.
-
 
 ---
 

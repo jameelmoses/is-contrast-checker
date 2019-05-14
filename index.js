@@ -1,110 +1,80 @@
-var _ = require('lodash');
-var Color = require('color');
+const Color = require('color');
 
-var minimums = {
+// WCAG 2.0 Minimums
+const minimums = {
   aa: 4.5,
   aaLarge: 3,
   aaa: 7,
   aaaLarge: 4.5
 };
 
-module.exports = function(colors, options) {
+module.exports = (colors) => {
 
-  var arr = [];
-  var results = [];
-  var combinations = [];
+  // Array to store all results
+  const colorResults = [];
 
-  var options = options || {};
+  // Loop through colors with key and value
+  for (const [key, value] of Object.entries(colors)) {
 
-  _.defaults(options, {
-    threshold: 0,
-    compact: false,
-    uniq: true
-  });
+    // Individual color
+    const color = {};
 
-  if (!Array.isArray(colors)) {
+    // Color object from value
+    const colorObject = Color(value);
 
-    if (typeof colors === 'object') {
+    // Color's hex code
+    color.hex = colorObject.hex();
 
-      _.forIn(colors, (val, key) => {
-        var color = Color(val);
-        color.name = key;
-        arr.push(color);
-      });
+    // Color's name
+    color.name = key;
 
-      if (options.uniq) {
-        arr = _.uniq(arr);
-      }
+    // Color's label color
+    color.labelColor = colorObject.isDark() ? 'white' : 'black';
 
-    } else {
-      console.error('Must provide an array or object');
-      return false;
-    }
-  } else {
+    // Array to store all color's combinations
+    color.combinations = [];
 
-    if (options.uniq) {
-      colors = _.uniq(colors);
-    }
+    // Loop through colors again with key and value
+    for (const [key, value] of Object.entries(colors)) {
 
-    colors.forEach(function(color) {
-      arr.push(Color(color));
-    });
-  }
+      // Individual combination
+      const combination = {};
 
-  arr.forEach(function(color) {
-    var result = options.compact ? {} : _.clone(color);
+      // Color combination object from value
+      const colorCombObject = Color(value);
 
-    result.hex = color.hex();
+      // Combination's hex code
+      combination.hex = colorCombObject.hex();
 
-    if (color.name) {
-      result.name = color.name;
-    }
+      // Combination's name
+      combination.name = key;
 
-    result.labelColor = getLabelColor(color.hex());
+      // Combination's contrast ratio compared to each color
+      combination.contrast = colorCombObject.contrast(color);
 
-    result.combinations = [];
-
-    arr.forEach(function(bg) {
-
-      if (color === bg) {
-        return false;
-      }
-
-      var combination = options.compact ? {} : _.clone(bg);
-
-      combination.hex = bg.hex();
-
-      if (bg.name) {
-        combination.name = bg.name;
-      }
-
-      combination.contrast = color.contrast(bg);
+      // Default accessibility is to fail
       combination.accessibility = 'Fail';
+
+      // Passes AAA contrast rules
       if (combination.contrast >= 7.0) {
         combination.accessibility = 'AAA';
+
+        // Passes AA contrast rules
       } else if (combination.contrast >= 4.5) {
         combination.accessibility = 'AA';
+        // Passes AA Large contrast rules
       } else if (combination.contrast >= 3.0) {
         combination.accessibility = 'AA18';
       }
 
-      if (combination.contrast > options.threshold) {
-        result.combinations.push(combination);
-      }
+      // Add combination to combinations array
+      color.combinations.push(combination);
+    }
 
-    });
-
-    results.push(result);
-  });
-
-  function getLabelColor(hexcolor){
-  	var r = parseInt(hexcolor.substr(1, 2), 16);
-  	var g = parseInt(hexcolor.substr(3, 2), 16);
-  	var b = parseInt(hexcolor.substr(5, 2), 16);
-  	var yiq = ((r * 299) + (g * 587)+ (b * 114)) / 1000;
-  	return (yiq >= 128) ? 'black' : 'white';
+    // Add all colors to results array
+    colorResults.push(result);
   }
 
-  return results;
+  return colorResults;
 
 };

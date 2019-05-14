@@ -1,13 +1,12 @@
 {
   "name": "is-contrast-checker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Color palette combination contrast tester",
   "main": "index.js",
   "author": "Jameel Moses",
   "license": "MIT",
   "dependencies": {
-    "color": "^3.1.1",
-    "lodash": "^4.17.11"
+    "color": "^3.1.1"
   },
   "repository": {
     "type": "git",
