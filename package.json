@@ -1,0 +1,26 @@
+{
+  "name": "is-contrast-checker",
+  "version": "1.0.0",
+  "description": "Color palette combination contrast tester",
+  "main": "index.js",
+  "author": "Jameel Moses",
+  "license": "MIT",
+  "dependencies": {
+    "color": "^3.1.1",
+    "lodash": "^4.17.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameelmoses/is-contrast-checker.git"
+  },
+  "keywords": [
+    "color",
+    "contrast",
+    "wcag",
+    "accessibility"
+  ],
+  "bugs": {
+    "url": "https://github.com/jameelmoses/is-contrast-checker/issues"
+  },
+  "homepage": "https://github.com/jameelmoses/is-contrast-checker"
+}
