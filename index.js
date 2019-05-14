@@ -10,24 +10,26 @@ module.exports = (colors) => {
 
   const colorResults = [];
 
-  for (const [key, value] of Object.entries(colors)) {
+  for (const [name, hex] of Object.entries(colors)) {
 
-    const colorObject = Color(value);
+    const colorObject = Color(hex);
 
     const color = {
-      name: key,
+      name,
       hex: colorObject.hex(),
       labelColor: colorObject.isDark() ? 'white' : 'black',
       combinations: []
     };
 
-    for (const [key, value] of Object.entries(colors)) {
+    for (const [combinationName, combinationHex] of Object.entries(colors)) {
+
+      const combColorObject = Color(combinationHex);
 
       const combination = {
-        name: key,
-        hex: colorObject.hex(),
-        contrast: colorObject.contrast(Color(value)),
-        accessibility: () => {
+        name: combinationName,
+        hex: combColorObject.hex(),
+        contrast: colorObject.contrast(combColorObject),
+        get accessibility() {
           const { aaa, aa, aaLarge } = minimums;
           if (this.contrast >= aaa) {
             return 'AAA';
