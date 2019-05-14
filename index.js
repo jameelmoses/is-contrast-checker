@@ -26,7 +26,7 @@ module.exports = (colors) => {
       const combination = {
         name: key,
         hex: colorObject.hex(),
-        contrast: colorObject.contrast(color),
+        contrast: colorObject.contrast(Color(value)),
         accessibility: () => {
           const { aaa, aa, aaLarge } = minimums;
           if (this.contrast >= aaa) {
@@ -44,7 +44,7 @@ module.exports = (colors) => {
       color.combinations.push(combination);
     }
 
-    colorResults.push(result);
+    colorResults.push(color);
   }
 
   return colorResults;
