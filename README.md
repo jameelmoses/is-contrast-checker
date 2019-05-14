@@ -36,6 +36,7 @@ values.
   {
     "hex": "#FF0000",
     "name": "red",
+    "labelColor": "white",
     "combinations": [
       {
         "hex": "#008000",

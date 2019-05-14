@@ -60,9 +60,9 @@ module.exports = function(colors, options) {
       result.name = color.name;
     }
 
-    result.combinations = [];
-
     result.labelColor = getLabelColor(color.hex());
+
+    result.combinations = [];
 
     arr.forEach(function(bg) {
 
